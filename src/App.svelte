@@ -11,7 +11,7 @@
 
 </script>
 
-<div id="grid">
+<div id="grid" class:large-picker={!$documentStore.contents}>
 	<header id="banner">
 		<div class="logotype">BillToText</div>
 		<div><a href="#" on:click|preventDefault|stopPropagation={() => hideAbout = false}>About</a></div>
@@ -43,6 +43,9 @@
 		</div>
 	</div>
 	<main class:large-picker={!$documentStore.contents}>
+		<section class="picker" >
+			<FilePicker accept={"application/pdf"} bind:this={picker} large={!$documentStore.contents} />
+		</section>
 		{#if !$documentStore.contents }
 		<section id="front-matter">
 			<p>BillToText.com turns PDFs of federal legislation into text files. 
@@ -63,30 +66,24 @@
 			</p>
 		</section>
 		{/if}
-		<section class="picker" >
-			<FilePicker accept={"application/pdf"} bind:this={picker} large={!$documentStore.contents} />
-		</section>
 		{#if $documentStore.contents }
 		<section class="document">
 			<DocumentRenderer src={$documentStore} bind:this={renderer} />
 		</section>
 		{/if}
 	</main>
+	<!--
 	<footer class="attribution">
 		Made <span class="extra">with 💖 &amp; 🤔</span> for <span class="logotype">Demand Progress</span> 
 		by Ted Han <span class="extra">&amp; the Bad Idea Factory.</span>
 	</footer>
+	-->
 </div>
 
 <style>
 	.large-picker section.picker {
-		grid-row-end: footer;
 	}
 
-	section.picker {
-		grid-row-start: mini-picker;
-		grid-row-end: main;
-	}
 
 	.large-picker section.document {
 		display: none;
@@ -98,11 +95,4 @@
 		display: flex;
 		justify-content: center;
 	}
-
-	footer.attribution {
-		position: fixed;
-		bottom: 0px;
-		text-align: center;
-	}
-
 </style>
